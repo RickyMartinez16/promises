@@ -15,6 +15,33 @@ function getFortune(question) {
     });
 }
 
-function fullSession(question) {}
+function fullSession(question) {
+    let answerArray2 = [];
+    const welcomePromise = welcome();
+    const goodbyePromise = goodbye();
+    
+    let sessionPromise = welcomePromise
+    .then((welcomeMessage) => {
+        answerArray2.push(welcomeMessage);
+    })
+    .then(() => {
+        return getFortune(question);
+    })
+    .then((fortuneMessage) => {
+        answerArray2 = answerArray2.concat(fortuneMessage);
+    })
+    .then(() => {
+        return goodbyePromise;
+    })
+    .then((goodbyeMessage) => {
+        answerArray2.push(goodbyeMessage);
+    })
+    .then(() => {
+        return answerArray2;
+    });
+    
+    return sessionPromise;
+
+}
 
 module.exports = { getFortune, fullSession };
